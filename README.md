@@ -1,6 +1,6 @@
 # Интерфейс космического корабля и планеты
 
-[https://github.com/yandex-shri/introtask-space](Задача) для поступающих в [ШРИ 2013](http://events.yandex.ru/events/shri/msk-2013/)
+[Задача](https://github.com/yandex-shri/introtask-space) для поступающих в [ШРИ 2013](http://events.yandex.ru/events/shri/msk-2013/)
 
 ## utils.js
 Файл содержит объект с хелперами. Например, функцию, которая помогает строить отчеты кораблей и планет.
