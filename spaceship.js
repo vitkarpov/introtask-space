@@ -6,13 +6,13 @@
  * @param {Number} capacity Грузоподъемность корабля.
  */
 function Vessel(name, position, capacity) {
-	this.name = (name) ? "Корабль «" + name + "»" : "Грузовой корабль";
-	if (!position && !position.length) {
-		throw new Error('Местоположение корабля «' + this.name + '» должно быть определено');
-	}
-	this.position = position;
-	this.capacity = capacity;
-	this.cargo = 0;
+  this.name = (name) ? "Корабль «" + name + "»" : "Грузовой корабль";
+  if (!position && !position.length) {
+    throw new Error('Местоположение корабля «' + this.name + '» должно быть определено');
+  }
+  this.position = position;
+  this.capacity = capacity;
+  this.cargo = 0;
 }
 
 /**
@@ -24,18 +24,18 @@ function Vessel(name, position, capacity) {
  * @name Vessel.report
  */
 Vessel.prototype.report = function () {
-	var report;
+  var report;
 
-	report = new utils.Report();
+  report = new utils.Report();
 
-	report.add(this.name)
-				.add('Местоположение', this.position)
-				.add('Занято', this.cargo + ' из ' + this.capacity + 'т');
+  report.add(this.name)
+        .add('Местоположение', this.position)
+        .add('Занято', this.cargo + ' из ' + this.capacity + 'т');
 
-	report = report.get();				
+  report = report.get();        
 
-	utils.log(report);
-	return report;
+  utils.log(report);
+  return report;
 }
 
 /**
@@ -43,8 +43,8 @@ Vessel.prototype.report = function () {
  * @name Vessel.getFreeSpace
  */
 Vessel.prototype.getFreeSpace = function () {
-	utils.log(this.capacity - this.cargo);
-	return this.capacity;
+  utils.log(this.capacity - this.cargo);
+  return this.capacity;
 }
 
 /**
@@ -52,8 +52,8 @@ Vessel.prototype.getFreeSpace = function () {
  * @name Vessel.getOccupiedSpace
  */
 Vessel.prototype.getOccupiedSpace = function () {
-	utils.log(this.cargo);
-	return this.cargo;
+  utils.log(this.cargo);
+  return this.cargo;
 }
 
 /**
@@ -64,18 +64,18 @@ Vessel.prototype.getOccupiedSpace = function () {
  * @return {Number} количество груза, которое поместилось.
  */
 Vessel.prototype.loadCargo = function (cargo) {
-	if (cargo < 0) {
-		throw new Error('Нельзя загрузить ' + cargo + 'т. груза');
-	}
+  if (cargo < 0) {
+    throw new Error('Нельзя загрузить ' + cargo + 'т. груза');
+  }
 
-	if (cargo < this.capacity - this.cargo) {
-		this.cargo += cargo
-	} else {
-		//больше не влезет
-		this.cargo = this.capacity
-	}
+  if (cargo < this.capacity - this.cargo) {
+    this.cargo += cargo
+  } else {
+    //больше не влезет
+    this.cargo = this.capacity
+  }
 
-	return this.cargo;
+  return this.cargo;
 
 }
 
@@ -86,15 +86,15 @@ Vessel.prototype.loadCargo = function (cargo) {
  * @name Vessel.unloadCargo
  */
 Vessel.prototype.unloadCargo = function (cargo) {
-	if (cargo < 0) {
-		throw new Error('Нельзя выгрузить ' + cargo + 'т. груза');
-	}
+  if (cargo < 0) {
+    throw new Error('Нельзя выгрузить ' + cargo + 'т. груза');
+  }
 
-	cargo = (cargo < this.cargo) ? cargo : this.cargo;
-	this.cargo -= cargo;
+  cargo = (cargo < this.cargo) ? cargo : this.cargo;
+  this.cargo -= cargo;
 
-	//количество выгруженного груза
-	return cargo;
+  //количество выгруженного груза
+  return cargo;
 }
 
 /**
@@ -108,9 +108,9 @@ Vessel.prototype.unloadCargo = function (cargo) {
  * @name Vessel.flyTo
  */
 Vessel.prototype.flyTo = function (newPosition) {
-	var constructor = newPosition.constructor.name;
+  var constructor = newPosition.constructor.name;
 
-	this.position = (constructor == 'Planet') ? newPosition.position : newPosition;
+  this.position = (constructor == 'Planet') ? newPosition.position : newPosition;
 }
 
 /**
@@ -121,12 +121,12 @@ Vessel.prototype.flyTo = function (newPosition) {
  * @param {Number} availableAmountOfCargo Доступное количество груза.
  */
 function Planet(name, position, availableAmountOfCargo) {
-	this.name = name || "Untitled"
-	if (!position || !position.length) {
-		throw new Error('Местоположение планеты «' + this.name + '» должно быть определено');
-	}
-	this.position = position;
-	this.availableAmountOfCargo = availableAmountOfCargo;
+  this.name = name || "Untitled"
+  if (!position || !position.length) {
+    throw new Error('Местоположение планеты «' + this.name + '» должно быть определено');
+  }
+  this.position = position;
+  this.availableAmountOfCargo = availableAmountOfCargo;
 }
 
 /**
@@ -134,22 +134,22 @@ function Planet(name, position, availableAmountOfCargo) {
  * @name Planet.report
  */
 Planet.prototype.report = function () {
-	var report;
+  var report;
 
-	report = new utils.Report()
-									.add('Планета', this.name)
-									.add('Местоположение', this.position);
+  report = new utils.Report()
+                  .add('Планета', this.name)
+                  .add('Местоположение', this.position);
 
-	if (this.availableAmountOfCargo > 0) {
-		report.add('Доступно груза', this.availableAmountOfCargo + 'т');
-	}	else {
-		report.add('Грузов нет')
-	}
+  if (this.availableAmountOfCargo > 0) {
+    report.add('Доступно груза', this.availableAmountOfCargo + 'т');
+  } else {
+    report.add('Грузов нет')
+  }
 
-	report = report.get();
+  report = report.get();
 
-	utils.log(report);
-	return report;
+  utils.log(report);
+  return report;
 }
 
 /**
@@ -157,8 +157,8 @@ Planet.prototype.report = function () {
  * @name Vessel.getAvailableAmountOfCargo
  */
 Planet.prototype.getAvailableAmountOfCargo = function () {
-	utils.log(this.availableAmountOfCargo);
-	return this.availableAmountOfCargo;
+  utils.log(this.availableAmountOfCargo);
+  return this.availableAmountOfCargo;
 }
 
 /**
@@ -170,14 +170,14 @@ Planet.prototype.getAvailableAmountOfCargo = function () {
  * @name Vessel.loadCargoTo
  */
 Planet.prototype.loadCargoTo = function (vessel, cargoWeight) {
-	var constructor = vessel.constructor.name,
-			loaded = 0;
+  var constructor = vessel.constructor.name,
+      loaded = 0;
 
-	if (constructor != 'Vessel') {
-		throw new Error(vessel + " должен быть экземпляром космического корабля")
-	}
+  if (constructor != 'Vessel') {
+    throw new Error(vessel + " должен быть экземпляром космического корабля")
+  }
 
-	this.availableAmountOfCargo -= vessel.loadCargo(cargoWeight);
+  this.availableAmountOfCargo -= vessel.loadCargo(cargoWeight);
 }
 
 /**
@@ -189,13 +189,13 @@ Planet.prototype.loadCargoTo = function (vessel, cargoWeight) {
  * @name Vessel.unloadCargoFrom
  */
 Planet.prototype.unloadCargoFrom = function (vessel, cargoWeight) {
-	var constructor = vessel.constructor.name,
-			unloaded;
+  var constructor = vessel.constructor.name,
+      unloaded;
 
-	if (constructor != 'Vessel') {
-		throw new Error(vessel + " должен быть экземпляром космического корабля")
-	}
+  if (constructor != 'Vessel') {
+    throw new Error(vessel + " должен быть экземпляром космического корабля")
+  }
 
-	uloaded = vessel.unloadCargo(cargoWeight);
-	this.availableAmountOfCargo += uloaded;
+  uloaded = vessel.unloadCargo(cargoWeight);
+  this.availableAmountOfCargo += uloaded;
 }
