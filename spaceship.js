@@ -65,19 +65,10 @@ Vessel.prototype.getOccupiedSpace = function () {
  * @return {Number} количество груза, которое поместилось.
  */
 Vessel.prototype.loadCargo = function (cargo) {
-  if (cargo < 0) {
-    throw new Error('Нельзя загрузить ' + cargo + 'т. груза');
-  }
-
-  if (cargo < this.capacity - this.cargo) {
-    this.cargo += cargo
-  } else {
-    //больше не влезет
-    this.cargo = this.capacity
-  }
+  cargo = (cargo < this.capacity - this.cargo) ? cargo : this.capacity - this.cargo
+  this.cargo += cargo;
 
   return this.cargo;
-
 }
 
 /**
@@ -87,10 +78,6 @@ Vessel.prototype.loadCargo = function (cargo) {
  * @name Vessel.unloadCargo
  */
 Vessel.prototype.unloadCargo = function (cargo) {
-  if (cargo < 0) {
-    throw new Error('Нельзя выгрузить ' + cargo + 'т. груза');
-  }
-
   cargo = (cargo < this.cargo) ? cargo : this.cargo;
   this.cargo -= cargo;
 
