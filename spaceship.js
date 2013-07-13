@@ -13,7 +13,7 @@ function Vessel(name, position, capacity) {
 	this.position = position;
 	this.capacity = capacity;
 	this.cargo = 0;
-}
+} 
 
 /**
  * Выводит текущее состояние корабля: имя, местоположение, доступную грузоподъемность.
