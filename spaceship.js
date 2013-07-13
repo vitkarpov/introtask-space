@@ -26,11 +26,13 @@ function Vessel(name, position, capacity) {
 Vessel.prototype.report = function () {
 	var report;
 
-	report = new utils.Report()
-									.add(this.name)
-									.add('Местоположение', this.position)
-									.add('Занято', this.cargo + ' из ' + this.capacity + 'т')
-									.get();
+	report = new utils.Report();
+
+	report.add(this.name)
+				.add('Местоположение', this.position)
+				.add('Занято', this.cargo + ' из ' + this.capacity + 'т');
+
+	report = report.get();				
 
 	utils.log(report);
 	return report;
@@ -40,13 +42,60 @@ Vessel.prototype.report = function () {
  * Выводит количество свободного места на корабле.
  * @name Vessel.getFreeSpace
  */
-Vessel.prototype.getFreeSpace = function () {}
+Vessel.prototype.getFreeSpace = function () {
+	utils.log(this.capacity - this.cargo);
+	return this.capacity;
+}
 
 /**
  * Выводит количество занятого места на корабле.
  * @name Vessel.getOccupiedSpace
  */
-Vessel.prototype.getOccupiedSpace = function () {}
+Vessel.prototype.getOccupiedSpace = function () {
+	utils.log(this.cargo);
+	return this.cargo;
+}
+
+/**
+ * Загружает корабль
+ *
+ * @param {Number} cargo Количество загружаемого груза
+ * @name Vessel.loadCargo
+ * @return {Number} количество груза, которое поместилось.
+ */
+Vessel.prototype.loadCargo = function (cargo) {
+	if (cargo < 0) {
+		throw new Error('Нельзя загрузить ' + cargo + 'т. груза');
+	}
+
+	if (cargo < this.capacity - this.cargo) {
+		this.cargo += cargo
+	} else {
+		//больше не влезет
+		this.cargo = this.capacity
+	}
+
+	return this.cargo;
+
+}
+
+/**
+ * Выгружает корабль
+ *
+ * @param {Number} cargo Количество выгружаемого груза
+ * @name Vessel.unloadCargo
+ */
+Vessel.prototype.unloadCargo = function (cargo) {
+	if (cargo < 0) {
+		throw new Error('Нельзя выгрузить ' + cargo + 'т. груза');
+	}
+
+	cargo = (cargo < this.cargo) ? cargo : this.cargo;
+	this.cargo -= cargo;
+
+	//количество выгруженного груза
+	return cargo;
+}
 
 /**
  * Переносит корабль в указанную точку.
@@ -56,9 +105,13 @@ Vessel.prototype.getOccupiedSpace = function () {}
  * @example
  * var earth = new Planet('Земля', [1,1]);
  * vessel.flyTo(earth);
- * @name Vessel.report
+ * @name Vessel.flyTo
  */
-Vessel.prototype.flyTo = function (newPosition) {}
+Vessel.prototype.flyTo = function (newPosition) {
+	var constructor = newPosition.constructor.name;
+
+	this.position = (constructor == 'Planet') ? newPosition.position : newPosition;
+}
 
 /**
  * Создает экземпляр планеты.
@@ -103,7 +156,10 @@ Planet.prototype.report = function () {
  * Возвращает доступное количество груза планеты.
  * @name Vessel.getAvailableAmountOfCargo
  */
-Planet.prototype.getAvailableAmountOfCargo = function () {}
+Planet.prototype.getAvailableAmountOfCargo = function () {
+	utils.log(this.availableAmountOfCargo);
+	return this.availableAmountOfCargo;
+}
 
 /**
  * Загружает на корабль заданное количество груза.
@@ -113,7 +169,16 @@ Planet.prototype.getAvailableAmountOfCargo = function () {}
  * @param {Number} cargoWeight Вес загружаемого груза.
  * @name Vessel.loadCargoTo
  */
-Planet.prototype.loadCargoTo = function (vessel, cargoWeight) {}
+Planet.prototype.loadCargoTo = function (vessel, cargoWeight) {
+	var constructor = vessel.constructor.name,
+			loaded = 0;
+
+	if (constructor != 'Vessel') {
+		throw new Error(vessel + " должен быть экземпляром космического корабля")
+	}
+
+	this.availableAmountOfCargo -= vessel.loadCargo(cargoWeight);
+}
 
 /**
  * Выгружает с корабля заданное количество груза.
@@ -123,4 +188,14 @@ Planet.prototype.loadCargoTo = function (vessel, cargoWeight) {}
  * @param {Number} cargoWeight Вес выгружаемого груза.
  * @name Vessel.unloadCargoFrom
  */
-Planet.prototype.unloadCargoFrom = function (vessel, cargoWeight) {}
+Planet.prototype.unloadCargoFrom = function (vessel, cargoWeight) {
+	var constructor = vessel.constructor.name,
+			unloaded;
+
+	if (constructor != 'Vessel') {
+		throw new Error(vessel + " должен быть экземпляром космического корабля")
+	}
+
+	uloaded = vessel.unloadCargo(cargoWeight);
+	this.availableAmountOfCargo += uloaded;
+}

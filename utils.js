@@ -3,9 +3,10 @@ utils = {}
 /**
  * Создает новый отчет
  * 
- * @param  {sting} report Другой отчет или описание. Будет добавлено в начало нового отчета.							 
+ * @param  {sting} report Другой отчет или описание. Будет добавлено в начало нового отчета.
+ * @name utils.Report					 
  */
-utils.Report = function(report) {
+utils.Report = function (report) {
 	this.report = report || "";
 
 	/**
@@ -15,7 +16,7 @@ utils.Report = function(report) {
 	 * @param  {string} value Значение, например, "Яндекс", необязательный
  	 * @return {Report} Текущий отчет
 	 */
-	this.add = function(term, value) {
+	this.add = function (term, value) {
 		var value = (value) ? ": " + value : "";
 
 		this.report += term + value + ". ";
@@ -27,7 +28,7 @@ utils.Report = function(report) {
 	 * 
 	 * @return {string} Строка отчета
 	 */
-	this.get = function() {
+	this.get = function () {
 		return this.report;
 	}
 }
@@ -35,7 +36,7 @@ utils.Report = function(report) {
 /**
  * Обертка для console.log
  */
-utils.log = function(message) {
+utils.log = function (message) {
 	if (typeof console == 'undefined') {
 		return;
 	}
