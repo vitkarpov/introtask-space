@@ -6,13 +6,13 @@
  * @param {Number} capacity Грузоподъемность корабля.
  */
 function Vessel(name, position, capacity) {
-  this.name = (name) ? "Корабль «" + name + "»" : "Грузовой корабль";
-  if (!position && !position.length) {
-    throw new Error('Местоположение корабля «' + this.name + '» должно быть определено');
-  }
-  this.position = position;
-  this.capacity = capacity;
-  this.cargo = 0;
+	this.name = (name) ? "Корабль «" + name + "»" : "Грузовой корабль";
+	if (!position && !position.length) {
+		throw new Error('Местоположение корабля «' + this.name + '» должно быть определено');
+	}
+	this.position = position;
+	this.capacity = capacity;
+	this.cargo = 0;
 }
 
 /**
@@ -196,6 +196,6 @@ Planet.prototype.unloadCargoFrom = function (vessel, cargoWeight) {
     throw new Error(vessel + " должен быть экземпляром космического корабля")
   }
 
-  uloaded = vessel.unloadCargo(cargoWeight);
-  this.availableAmountOfCargo += uloaded;
+	uloaded = vessel.unloadCargo(cargoWeight);
+	this.availableAmountOfCargo += uloaded;
 }
