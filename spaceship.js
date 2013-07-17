@@ -159,10 +159,15 @@ Planet.prototype.getAvailableAmountOfCargo = function () {
  */
 Planet.prototype.loadCargoTo = function (vessel, cargoWeight) {
   var constructor = vessel.constructor.name,
-      loaded = 0;
+      loaded = 0,
+      report = new utils.Report();
 
   if (constructor != 'Vessel') {
     throw new Error(vessel + " должен быть экземпляром космического корабля")
+  }
+
+  if (this.position != vessel.position) {
+    return utils.log(report.add('Внимание! Корабль не находится на планете').get())
   }
 
   this.availableAmountOfCargo -= vessel.loadCargo(cargoWeight);
@@ -182,6 +187,10 @@ Planet.prototype.unloadCargoFrom = function (vessel, cargoWeight) {
 
   if (constructor != 'Vessel') {
     throw new Error(vessel + " должен быть экземпляром космического корабля")
+  }
+
+  if (this.position != vessel.position) {
+    return utils.log(report.add('Внимание! Корабль не находится на планете').get())
   }
 
   uloaded = vessel.unloadCargo(cargoWeight);
